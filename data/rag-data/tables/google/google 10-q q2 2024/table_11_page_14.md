@@ -1,0 +1,24 @@
+**Page:** 14
+
+The long-term portion of marketable equity securities (subject to long-term lock-up restrictions) of $1.4 billion as of December 31, 2023 is included within other non-current assets. (2)
+<!-- page break -->
+
+|                                                                 |                      | As of June 30, 2024   | As of June 30, 2024    | As of June 30, 2024     | As of June 30, 2024   | As of June 30, 2024       | As of June 30, 2024   |
+|-----------------------------------------------------------------|----------------------|-----------------------|------------------------|-------------------------|-----------------------|---------------------------|-----------------------|
+|                                                                 | Fair Value Hierarchy | Adjusted Cost         | Gross Unrealized Gains | Gross Unrealized Losses | Fair Value            | Cash and Cash Equivalents | Marketable Securities |
+| Fair value changes recorded in other comprehensive income       |                      |                       |                        |                         |                       |                           |                       |
+| Time deposits                                                   | Level 2              | $ 2,784               | $                      | $ 0                     | $ 2,784               | $ 2,784                   | $                     |
+| Government bonds                                                | Level 2              | 33,002                | 60                     | (447)                   | 32,615                | 5,268                     | 27,347                |
+| Corporate debt securities                                       | Level 2              | 18,856                | 40                     | (437)                   | 18,459                |                           | 18,459                |
+| Mortgage-backed and asset-backed securities                     | Level 2              | 14,806                | 30                     | (578)                   | 14,258                |                           | 14,258                |
+| Total investments with fair value change reflected in other     |                      | $ 69,448              | $ 130                  | $ (1,462)               | $ 68,116              | $ 8,052                   | $ 60,064              |
+| Fair value adjustments recorded in net income                   |                      |                       |                        |                         |                       |                           |                       |
+| Money market funds                                              | Level 1              |                       |                        |                         | $ 7,061               | $ 7,061                   | $                     |
+| Current marketable equity securities (2)                        | Level 1              |                       |                        |                         | 4,683                 |                           | 4,683                 |
+| Mutual funds                                                    | Level 2              |                       |                        |                         | 276                   |                           | 276                   |
+| Government bonds                                                | Level 2              |                       |                        |                         | 2,162                 | 152                       | 2,010                 |
+| Corporate debt securities                                       | Level 2              |                       |                        |                         | 3,694                 | 89                        | 3,605                 |
+| Mortgage-backed and asset-backed securities                     | Level 2              |                       |                        |                         | 2,862                 |                           | 2,862                 |
+| Total investments with fair value change recorded in net income |                      |                       |                        |                         | $ 20,738              | $ 7,302                   | $ 13,436              |
+| Cash                                                            |                      |                       |                        |                         | 0                     | 11,871                    |                       |
+| Total                                                           |                      | $ 69,448              | $ 130                  | $ (1,462)               | $ 88,854              | $ 27,225                  | $ 73,500              |

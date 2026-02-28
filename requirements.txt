@@ -1,0 +1,12 @@
+docling
+langchain-groq
+langchain-openai
+langchain
+langchain-qdrant
+fastembed
+langchain-huggingface
+langchain-community
+sentence-transformers
+einops
+opt_einsum
+python-dotenv
