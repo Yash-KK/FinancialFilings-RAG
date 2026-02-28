@@ -1,4 +1,4 @@
-# KGP — Financial Documents RAG Pipeline
+# Financial Documents RAG Pipeline
 
 This project processes financial documents (e.g. 10-K, 10-Q, 8-K) from PDFs into a structured format and ingests them into a vector store for retrieval. The pipeline is split into three main notebooks plus a shared `helpers` module.
 
