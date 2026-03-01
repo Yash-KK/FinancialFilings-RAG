@@ -11,7 +11,7 @@ load_dotenv()
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 TOGETHER_BASE_URL = os.getenv("TOGETHER_BASE_URL")
 CHAT_MODEL = os.getenv("CHAT_MODEL")
-
+RERANKER_MODEL = "BAAI/bge-reranker-base"
 
 # Paths
 MARKDOWN_DIR = "data/rag-data/markdown"
