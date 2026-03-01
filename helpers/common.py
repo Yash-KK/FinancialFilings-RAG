@@ -23,6 +23,8 @@ URL = "http://localhost:6333"
 EMBEDDING_MODEL_TOGETHER = "togethercomputer/m2-bert-80M-8k-retrieval"
 COLLECTION_NAME_TOGETHER = "financial_docs_together"
 
+llm = ChatOpenAI(model=CHAT_MODEL, base_url=TOGETHER_BASE_URL, api_key=TOGETHER_API_KEY)
+
 dense_embeddings = HuggingFaceEmbeddings(
     model_name=EMBEDDING_MODEL_TOGETHER,
     model_kwargs={"device": "cpu", "trust_remote_code": True},
@@ -32,10 +34,9 @@ dense_embeddings = HuggingFaceEmbeddings(
     },
 )
 
-
+sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
 client = QdrantClient(url=URL)
 
-sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
 
 vector_store = QdrantVectorStore.from_documents(
     documents=[],
@@ -46,5 +47,3 @@ vector_store = QdrantVectorStore.from_documents(
     retrieval_mode=RetrievalMode.HYBRID,
     force_recreate=False,
 )
-
-llm = ChatOpenAI(model=CHAT_MODEL, base_url=TOGETHER_BASE_URL, api_key=TOGETHER_API_KEY)
