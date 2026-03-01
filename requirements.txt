@@ -10,3 +10,5 @@ sentence-transformers
 einops
 opt_einsum
 python-dotenv
+langgraph-checkpoint-sqlite
+yfinance
