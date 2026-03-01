@@ -1,6 +1,6 @@
 # Financial Documents RAG Pipeline
 
-This project processes financial documents (e.g. 10-K, 10-Q, 8-K) from PDFs into a structured format and ingests them into a vector store for retrieval. The pipeline is split into three main notebooks plus a shared `helpers` module.
+This project processes financial documents (e.g. 10-K, 10-Q, 8-K) from PDFs into a structured format and ingests them into a vector store for retrieval. The pipeline is split into four main notebooks plus a shared `helpers` module.
 
 ---
 
@@ -71,6 +71,24 @@ Uses `client`, `vector_store`, `dense_embeddings`, `sparse_embeddings`, `URL`, a
 
 ---
 
+### 4. `4_data_retrieval.ipynb` — Query and Retrieve from Qdrant
+
+Queries the indexed financial documents using natural language: extracts metadata filters from the user query, runs hybrid search with those filters, and optionally reranks results with a cross-encoder.
+
+- **Input:** Natural-language questions (e.g. “What is Amazon’s revenue in 2023 Q1?”, “Tesla profitability”).
+- **Vector store:** Same Qdrant collection as ingestion (`financial_docs_together` at `http://localhost:6333`).
+- **Output:** Ranked list of LangChain `Document` chunks (optionally reranked).
+
+**Notable logic:**
+
+- **Metadata extraction:** `extract_filters(user_query)` uses the LLM (Together, via `helpers.common.llm`) with structured output (`ChunkMetadata` from `helpers.schema`) to infer filters from the query. It maps companies (e.g. Amazon/AMZN → `amazon`, Apple/AAPL → `apple`), doc types (e.g. “annual report” → `10-k`, “quarterly report” → `10-q`), and fiscal year/quarter. Returns a dict of non-`None` fields (e.g. `company_name`, `doc_type`, `fiscal_year`, `fiscal_quarter`) for use as Qdrant filters.
+- **Hybrid search:** `hybrid_search(query, k=5)` calls `extract_filters(query)`, builds a Qdrant `Filter` from the result (`FieldCondition` + `MatchValue` per key under `metadata.*`), and runs `vector_store.similarity_search(query=..., k=..., filter=...)`. Returns a list of `Document` objects with metadata (company, doc type, year, quarter, page, content type, etc.).
+- **Optional reranking:** `rerank_results(query, documents, top_k=10)` uses `HuggingFaceCrossEncoder` with `RERANKER_MODEL` (`BAAI/bge-reranker-base` from `helpers.common`) to score (query, doc) pairs and return the top `top_k` documents. Reranking is optional and can be applied after `hybrid_search` for better relevance.
+
+Run this after ingestion when you want to search the indexed documents by natural language; ensure Qdrant is running and the collection is populated.
+
+---
+
 ## Helpers (`helpers/`)
 
 Shared configuration, schemas, and utilities used by the notebooks.
@@ -81,6 +99,7 @@ Shared configuration, schemas, and utilities used by the notebooks.
 - **Paths:** `MARKDOWN_DIR`, `TABLES_DIR`, `IMAGES_DESC_DIR` for extracted data.
 - **Qdrant:** `URL` (e.g. `http://localhost:6333`), `COLLECTION_NAME_TOGETHER` (`financial_docs_together`), `client` (`QdrantClient`), and a pre-built `vector_store` (`QdrantVectorStore` with hybrid retrieval).
 - **Embeddings:** `dense_embeddings` (HuggingFace `togethercomputer/m2-bert-80M-8k-retrieval`) and `sparse_embeddings` (FastEmbed `Qdrant/bm25`).
+- **Reranker:** `RERANKER_MODEL` — `BAAI/bge-reranker-base`, used by `4_data_retrieval.ipynb` for optional cross-encoder reranking.
 - **LLM:** `llm` — `ChatOpenAI` wired to Together (base URL + API key from env).
 
 Notebooks import from here instead of redefining clients, paths, or embedding models.
@@ -110,4 +129,4 @@ Used by `1_data_extraction.ipynb` to convert PDFs to Docling documents and expor
 2. **Qdrant:** Run Qdrant locally (e.g. Docker) so `http://localhost:6333` is available.
 3. **Dependencies:** Install from `requirements.txt` (includes `docling`, `langchain-*`, `qdrant-client`, etc.) and use the same Python env when running the notebooks.
 
-**Suggested order:** Run `1_data_extraction.ipynb` → `2_data_ingestion.ipynb`. Use `3_migration.ipynb` only when you need to clone or re-index an existing Qdrant collection.
+**Suggested order:** Run `1_data_extraction.ipynb` → `2_data_ingestion.ipynb`, then `4_data_retrieval.ipynb` to query the index. Use `3_migration.ipynb` only when you need to clone or re-index an existing Qdrant collection.
