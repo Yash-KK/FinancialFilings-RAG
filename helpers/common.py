@@ -1,5 +1,6 @@
 import os
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_qdrant import QdrantVectorStore, RetrievalMode, FastEmbedSparse
 from langchain_huggingface import HuggingFaceEmbeddings
 from qdrant_client import QdrantClient
@@ -10,6 +11,8 @@ load_dotenv()
 
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 TOGETHER_BASE_URL = os.getenv("TOGETHER_BASE_URL")
+GROQ_KEY = os.getenv("GROQ_KEY")
+
 CHAT_MODEL = os.getenv("CHAT_MODEL")
 RERANKER_MODEL = "BAAI/bge-reranker-base"
 
@@ -23,6 +26,8 @@ URL = "http://localhost:6333"
 EMBEDDING_MODEL_TOGETHER = "togethercomputer/m2-bert-80M-8k-retrieval"
 COLLECTION_NAME_TOGETHER = "financial_docs_together"
 
+llm = ChatOpenAI(model=CHAT_MODEL, base_url=TOGETHER_BASE_URL, api_key=TOGETHER_API_KEY)
+llm_groq = ChatGroq(model="openai/gpt-oss-120", api_key=GROQ_KEY)
 dense_embeddings = HuggingFaceEmbeddings(
     model_name=EMBEDDING_MODEL_TOGETHER,
     model_kwargs={"device": "cpu", "trust_remote_code": True},
@@ -32,10 +37,9 @@ dense_embeddings = HuggingFaceEmbeddings(
     },
 )
 
-
+sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
 client = QdrantClient(url=URL)
 
-sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
 
 vector_store = QdrantVectorStore.from_documents(
     documents=[],
@@ -46,5 +50,3 @@ vector_store = QdrantVectorStore.from_documents(
     retrieval_mode=RetrievalMode.HYBRID,
     force_recreate=False,
 )
-
-llm = ChatOpenAI(model=CHAT_MODEL, base_url=TOGETHER_BASE_URL, api_key=TOGETHER_API_KEY)
