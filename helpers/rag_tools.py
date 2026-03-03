@@ -1,4 +1,4 @@
-from helpers.common import vector_store, llm
+from helpers.common import vector_store, llm_groq
 from langchain.messages import HumanMessage, SystemMessage
 from helpers.schema import ChunkMetadata
 from qdrant_client.models import Filter, FieldCondition, MatchValue
@@ -39,7 +39,7 @@ Extract metadata strictly based on the user query.
         HumanMessage(content=user_query),
     ]
 
-    structured_llm = llm.with_structured_output(ChunkMetadata)
+    structured_llm = llm_groq.with_structured_output(ChunkMetadata)
     try:
         response = structured_llm.invoke(messages)
         metadata = response.parsed if hasattr(response, "parsed") else response

@@ -12,3 +12,5 @@ opt_einsum
 python-dotenv
 langgraph-checkpoint-sqlite
 yfinance
+duckduckgo-search
+ddgs
