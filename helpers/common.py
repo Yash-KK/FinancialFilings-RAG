@@ -16,6 +16,9 @@ GROQ_KEY = os.getenv("GROQ_KEY")
 CHAT_MODEL = os.getenv("CHAT_MODEL")
 RERANKER_MODEL = "BAAI/bge-reranker-base"
 
+CHAT_MODEL_GROQ_1 = "meta-llama/llama-4-scout-17b-16e-instruct"
+CHAT_MODEL_GROQ_2="moonshotai/kimi-k2-instruct-0905"
+
 # Paths
 MARKDOWN_DIR = "data/rag-data/markdown"
 TABLES_DIR = "data/rag-data/tables"
@@ -27,7 +30,7 @@ EMBEDDING_MODEL_TOGETHER = "togethercomputer/m2-bert-80M-8k-retrieval"
 COLLECTION_NAME_TOGETHER = "financial_docs_together"
 
 llm = ChatOpenAI(model=CHAT_MODEL, base_url=TOGETHER_BASE_URL, api_key=TOGETHER_API_KEY)
-llm_groq = ChatGroq(model="openai/gpt-oss-120", api_key=GROQ_KEY)
+llm_groq = ChatGroq(model=CHAT_MODEL_GROQ_1, api_key=GROQ_KEY)
 dense_embeddings = HuggingFaceEmbeddings(
     model_name=EMBEDDING_MODEL_TOGETHER,
     model_kwargs={"device": "cpu", "trust_remote_code": True},
