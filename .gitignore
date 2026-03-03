@@ -1,3 +1,6 @@
 /rag_venv
 .env
 __pycache__
+/data/financial_research_agent.db
+/data/financial_research_agent.db-shm
+/data/financial_research_agent.db-wal
